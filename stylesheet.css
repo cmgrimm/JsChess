@@ -1,0 +1,68 @@
+#chessboard
+{
+float: left;
+padding:20px;
+background-color: #94704b;
+border-style: solid;
+border-width: 4px;
+border-color: #4B392B;
+border-radius: 25px;
+}
+
+.tile
+{
+	width: 64px;
+	height: 64px;
+	float: left;
+	display: inline-block
+}
+
+.offsetLeft
+{
+	float: right;
+	float: left;
+	position: relative;
+}
+
+.tl { border-top-left-radius: 15px }
+.tr { border-top-right-radius: 15px }
+.bl { border-bottom-left-radius: 15px }
+.brc { border-bottom-right-radius: 15px }
+
+.black
+{
+
+	background-color: #4B392B;
+  color:white;
+}
+
+.white
+{
+	background-color: #E3D2C0;
+  color:black;
+
+}
+
+.hover
+{
+    background-color: #00ff99;
+		border-radius: 50%;
+		width: 60;
+		height: 60;
+		z-index: 3;
+}
+
+
+//pieces
+.wp { background: url('img/wp.png') no-repeat; z-index: 2; }
+.wr { background: url('img/wr.png') no-repeat; z-index: 2; }
+.wkn { background: url('img/wkn.png') no-repeat; z-index: 2; }
+.wb { background: url('img/wb.png') no-repeat; z-index: 2; }
+.wK { background: url('img/wK.png') no-repeat; z-index: 2; }
+.wq { background: url('img/wq.png') no-repeat; z-index: 2; }
+.bp { background: url('img/bp.png') no-repeat; z-index: 2; }
+.br { background: url('img/br.png') no-repeat; z-index: 2; }
+.bkn { background: url('img/bkn.png') no-repeat; z-index: 2; }
+.bb { background: url('img/bb.png') no-repeat; z-index: 2; }
+.bK { background: url('img/bK.png') no-repeat; z-index: 2; }
+.bq { background: url('img/bq.png') no-repeat; z-index: 2; }
