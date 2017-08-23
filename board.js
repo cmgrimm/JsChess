@@ -2,12 +2,12 @@
 var createBoard = function() {
   file = ["A", "B", "C", "D", "E", "F", "G", "H"];
   rank = [8, 7, 6, 5, 4, 3, 2, 1];
-  var count = 0;
+  var count = 1;
 
   for (var i = 0; i < file.length; i++) {
     for (var j = 0; j < rank.length; j++) {
       //add tiles to the board
-      if (count % 8 == 0) {
+      if ((count-1) % 8 == 0) {
         $("#chessboard").append('<div class="tile" style="clear:left"></div>');
         //$("#chessboard").append('<p class="offsetLeft">file</p>');
 
@@ -15,33 +15,33 @@ var createBoard = function() {
         $("#chessboard").append('<div class="tile"></div>');
       }
       //label tile number
-      $(".tile").eq(count).attr({
+      $(".tile").eq(count-1).attr({
         id: count
       });
-      $(".tile").eq(count).attr("data-rank", rank[i]);
-      $(".tile").eq(count).attr("data-file", j + 1);
+      $(".tile").eq(count-1).attr("data-rank", rank[i]);
+      $(".tile").eq(count-1).attr("data-file", j + 1);
 
       //else if determine if tile is on a corner
       //this if block gives each tile color
-      if (count == 0) {
-        $(".tile").eq(count).addClass("white");
-        $(".tile").eq(count).addClass("tl");
+      if (count == 1) {
+        $(".tile").eq(count-1).addClass("black");
+        $(".tile").eq(count-1).addClass("tl");
         //$(".tile").eq(count).addClass("br");
-      } else if (count == 7) {
-        $(".tile").eq(count).addClass("black");
-        $(".tile").eq(count).addClass("tr");
+      } else if (count == 8) {
+        $(".tile").eq(count-1).addClass("white");
+        $(".tile").eq(count-1).addClass("tr");
         //$(".tile").eq(count).addClass("br");
 
-      } else if (count == 56) {
-        $(".tile").eq(count).addClass("black");
-        $(".tile").eq(count).addClass("bl");
-      } else if (count == 63) {
-        $(".tile").eq(count).addClass("white");
-        $(".tile").eq(count).addClass("brc");
+      } else if (count == 57) {
+        $(".tile").eq(count-1).addClass("white");
+        $(".tile").eq(count-1).addClass("bl");
+      } else if (count == 64) {
+        $(".tile").eq(count-1).addClass("black");
+        $(".tile").eq(count-1).addClass("brc");
       } else if (((i % 2 == 0) && (j % 2 != 0)) || ((i % 2 != 0) && (j % 2 == 0))) {
-        $(".tile").eq(count).addClass("black");
+        $(".tile").eq(count-1).addClass("white");
       } else {
-        $(".tile").eq(count).addClass("white");
+        $(".tile").eq(count-1).addClass("black");
       }
       count++;
 
@@ -215,6 +215,7 @@ var legalMoves = function(draggable, droppable) {
 	  
 	  while (cnt < 4) {
 		  
+		  newTile = null;
 		  if(ur) { //block for bishop going up and right
 			
 		      newRank = currentRank + i;
@@ -239,13 +240,16 @@ var legalMoves = function(draggable, droppable) {
 			  } //end check if occupied
 		  }//end ur 
 
+		  newTile = null;
 		  if(ul) {
-		      newRank = currentRank - i;
-			  newFile = currentFile + j;
+		      newRank = currentRank + i;
+			  newFile = currentFile - j;
 			
 			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
 				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+				  console.log("New tile num: " + newTile);
 			  } else {
+					console.log("upper left out of bounds");
 					ul = false;
 					cnt++;
 			  }
@@ -253,18 +257,22 @@ var legalMoves = function(draggable, droppable) {
 			  if($('.tile[id=' + newTile + ']').find('img').length){
 				//if occupied make sure it is opposite color
 				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  console.log("take "+Number(newTile));
 				  legalTiles.push(Number(newTile));
 				}
+				console.log("ul is occupied");
 				ul = false;
 				cnt++;
 			  } else {
+				  console.log("hmmm");
 				legalTiles.push(Number(newTile));
 			  } //end check if occupied			  
 		  }//end ul
 		  
+		  newTile = null;
 		  if(br) {
-		      newRank = currentRank + i;
-			  newFile = currentFile - j;
+		      newRank = currentRank - i;
+			  newFile = currentFile + j;
 			
 			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
 				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
@@ -278,13 +286,14 @@ var legalMoves = function(draggable, droppable) {
 				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
 				  legalTiles.push(Number(newTile));
 				}
-				ul = false;
+				br = false;
 				cnt++;
 			  } else {
 				legalTiles.push(Number(newTile));
 			  } //end check if occupied				  
 		  }//end br
-		  
+
+		  newTile = null;		  
 		  if(bl) {
 		      newRank = currentRank - i;
 			  newFile = currentFile - j;
@@ -301,7 +310,7 @@ var legalMoves = function(draggable, droppable) {
 				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
 				  legalTiles.push(Number(newTile));
 				}
-				ul = false;
+				bl = false;
 				cnt++;
 			  } else {
 				legalTiles.push(Number(newTile));
@@ -310,10 +319,7 @@ var legalMoves = function(draggable, droppable) {
 	
 		  i++;
 		  j++;
-	  }
-	  
-	  
-  
+	  }//end while
   };//end getting the legal moves
   legalTiles = legalTiles.filter(Number);
   //console.log(legalTiles);
