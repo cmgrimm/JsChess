@@ -193,6 +193,127 @@ var legalMoves = function(draggable, droppable) {
         } //end absSum if block
       } //end j
     } //end i
+  } else if (name == "bishop") {
+	  
+	  /*
+	   *  The bishop will move diagnoally each direction until it reaches the end of the board or another piece
+	   *  Two Approaches:
+	   *    1) A while loop for each direction <- easy way
+	   *    2) A single loop that iterates through al combinations of i and j being abs equal <- cool way
+	   */
+	  
+	  var ur = true;
+	  var ul = true;
+	  var br = true;
+	  var bl = true;
+	  var cnt = 0;
+	  var newRank;
+      var newFile;
+      var newTile;
+	  var i = 1;
+	  var j = 1;
+	  
+	  while (cnt < 4) {
+		  
+		  if(ur) { //block for bishop going up and right
+			
+		      newRank = currentRank + i;
+			  newFile = currentFile + j;
+			
+			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					ur = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				ur = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end ur 
+
+		  if(ul) {
+		      newRank = currentRank - i;
+			  newFile = currentFile + j;
+			
+			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					ul = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				ul = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied			  
+		  }//end ul
+		  
+		  if(br) {
+		      newRank = currentRank + i;
+			  newFile = currentFile - j;
+			
+			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					br = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				ul = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied				  
+		  }//end br
+		  
+		  if(bl) {
+		      newRank = currentRank - i;
+			  newFile = currentFile - j;
+			
+			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					bl = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				ul = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied				  
+		  }//end bl
+	
+		  i++;
+		  j++;
+	  }
+	  
+	  
+  
   };//end getting the legal moves
   legalTiles = legalTiles.filter(Number);
   //console.log(legalTiles);
