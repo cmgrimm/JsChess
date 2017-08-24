@@ -197,9 +197,7 @@ var legalMoves = function(draggable, droppable) {
 	  
 	  /*
 	   *  The bishop will move diagnoally each direction until it reaches the end of the board or another piece
-	   *  Two Approaches:
-	   *    1) A while loop for each direction <- easy way
-	   *    2) A single loop that iterates through al combinations of i and j being abs equal <- cool way
+	   *   A single loop that iterates through al combinations of i and j being abs equal <- cool way
 	   */
 	  
 	  var ur = true;
@@ -320,6 +318,59 @@ var legalMoves = function(draggable, droppable) {
 		  i++;
 		  j++;
 	  }//end while
+  } else if (peice == "rook") {
+  
+	  /*
+	   *  The rook is prgrammed the same way the bishop is
+	   */
+  
+	  var u = true;
+	  var l = true;
+	  var r = true;
+	  var d = true;
+	  var cnt = 0;
+	  var newRank;
+      var newFile;
+      var newTile;
+	  var i = 1;
+	  var j = 1;
+	  
+
+	  while (cnt < 4) {
+		  
+		  newTile = null;
+		  if(u) { //block for bishop going up and right
+			
+		      newRank = currentRank + i;
+			
+			  if (newRank > 0 && newRank < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + currentFile + '"]').attr('id');
+			  } else {
+					u = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				u = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end ur 
+	
+		  i++;
+		  j++;
+	  }//end while	  
+	  
+	  
+	  
+	  
+	  
+  
   };//end getting the legal moves
   legalTiles = legalTiles.filter(Number);
   //console.log(legalTiles);
