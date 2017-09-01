@@ -441,10 +441,238 @@ var legalMoves = function(draggable, droppable) {
 	  
 	  
   
+  } else if (name == "queen"){
+	  
+	  
+	  /*
+	   *  The queen functions as a combination of the bishop and the rook
+	   *  The code for the queen was copied and pasted from the rooka dn bishop
+	   */
+	  
+  	  var ur = true;
+	  var ul = true;
+	  var br = true;
+	  var bl = true;
+	  var u = true;
+	  var l = true;
+	  var r = true;
+	  var d = true;
+	  var cnt = 0;
+	  var newRank;
+      var newFile;
+      var newTile;
+	  var i = 1;
+	  var j = 1;
+	  
+	  while (cnt < 8) {
+		  newTile = null;
+		  if(ur) { //block for queen going up and right
+			
+		      newRank = currentRank + i;
+			  newFile = currentFile + j;
+			
+			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					ur = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				ur = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end ur 
+
+		  newTile = null;
+		  if(ul) {
+		      newRank = currentRank + i;
+			  newFile = currentFile - j;
+			
+			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+				  console.log("New tile num: " + newTile);
+			  } else {
+					console.log("upper left out of bounds");
+					ul = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  console.log("take "+Number(newTile));
+				  legalTiles.push(Number(newTile));
+				}
+				console.log("ul is occupied");
+				ul = false;
+				cnt++;
+			  } else {
+				  console.log("hmmm");
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied			  
+		  }//end ul
+		  
+		  newTile = null;
+		  if(br) {
+		      newRank = currentRank - i;
+			  newFile = currentFile + j;
+			
+			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					br = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				br = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied				  
+		  }//end br
+
+		  newTile = null;		  
+		  if(bl) {
+		      newRank = currentRank - i;
+			  newFile = currentFile - j;
+			
+			  if (newRank > 0 && newFile > 0 && newRank < 9 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					bl = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				bl = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied				  
+		  }//end bl	 
+		  
+		  newTile = null;
+		  if(u) { //block for queen going up
+			
+		      newRank = currentRank + i;
+			
+			  if (newRank > 0 && newRank < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + currentFile + '"]').attr('id');
+			  } else {
+					u = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				u = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end u
+		  
+		  newTile = null;
+		  if(d) { //block for queen going down
+			
+		      newRank = currentRank - i;
+			
+			  if (newRank > 0 && newRank < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + currentFile + '"]').attr('id');
+			  } else {
+					d = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				d = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end d
+		  
+		  newTile = null;
+		  if(r) { //block for queen going right
+			
+		      newFile = currentFile + i;
+			
+			  if (newFile > 0 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + currentRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					r = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				r = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end r
+	
+		  newTile = null;
+		  if(l) { //block for queen going right
+			
+		      newFile = currentFile - i;
+			
+			  if (newFile > 0 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + currentRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					l = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				l = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end r
+
+		i++;
+		j++;
+	  }//end while
+  
+  
   };//end getting the legal moves
   legalTiles = legalTiles.filter(Number);
   //console.log(legalTiles);
   return (legalTiles); //return array of legal moves
+  
 }; //end legalMoves
 
 //increment move counter
