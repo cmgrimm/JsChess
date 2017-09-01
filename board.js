@@ -318,7 +318,7 @@ var legalMoves = function(draggable, droppable) {
 		  i++;
 		  j++;
 	  }//end while
-  } else if (peice == "rook") {
+  } else if (name == "rook") {
   
 	  /*
 	   *  The rook is prgrammed the same way the bishop is
@@ -333,13 +333,12 @@ var legalMoves = function(draggable, droppable) {
       var newFile;
       var newTile;
 	  var i = 1;
-	  var j = 1;
 	  
 
 	  while (cnt < 4) {
 		  
 		  newTile = null;
-		  if(u) { //block for bishop going up and right
+		  if(u) { //block for rook going up
 			
 		      newRank = currentRank + i;
 			
@@ -360,10 +359,81 @@ var legalMoves = function(draggable, droppable) {
 			  } else {
 				legalTiles.push(Number(newTile));
 			  } //end check if occupied
-		  }//end ur 
+		  }//end u
+		  
+		  newTile = null;
+		  if(d) { //block for rook going down
+			
+		      newRank = currentRank - i;
+			
+			  if (newRank > 0 && newRank < 9) {
+				  newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + currentFile + '"]').attr('id');
+			  } else {
+					d = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				d = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end d
+		  
+		  newTile = null;
+		  if(r) { //block for rook going right
+			
+		      newFile = currentFile + i;
+			
+			  if (newFile > 0 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + currentRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					r = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				r = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end r
+	
+		  newTile = null;
+		  if(l) { //block for rook going right
+			
+		      newFile = currentFile - i;
+			
+			  if (newFile > 0 && newFile < 9) {
+				  newTile = $('.tile[data-rank="' + currentRank + '"][data-file="' + newFile + '"]').attr('id');
+			  } else {
+					l = false;
+					cnt++;
+			  }
+			  //check if tile is occupied
+			  if($('.tile[id=' + newTile + ']').find('img').length){
+				//if occupied make sure it is opposite color
+				if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+				  legalTiles.push(Number(newTile));
+				}
+				l = false;
+				cnt++;
+			  } else {
+				legalTiles.push(Number(newTile));
+			  } //end check if occupied
+		  }//end r	
 	
 		  i++;
-		  j++;
 	  }//end while	  
 	  
 	  
