@@ -318,6 +318,7 @@ var legalMoves = function(draggable, droppable) {
 		  i++;
 		  j++;
 	  }//end while
+  
   } else if (name == "rook") {
   
 	  /*
@@ -437,10 +438,6 @@ var legalMoves = function(draggable, droppable) {
 	  }//end while	  
 	  
 	  
-	  
-	  
-	  
-  
   } else if (name == "queen"){
 	  
 	  
@@ -640,7 +637,7 @@ var legalMoves = function(draggable, droppable) {
 		  }//end r
 	
 		  newTile = null;
-		  if(l) { //block for queen going right
+		  if(l) { //block for queen going left
 			
 		      newFile = currentFile - i;
 			
@@ -661,11 +658,44 @@ var legalMoves = function(draggable, droppable) {
 			  } else {
 				legalTiles.push(Number(newTile));
 			  } //end check if occupied
-		  }//end r
+		  }//end l
 
 		i++;
 		j++;
 	  }//end while
+  
+  
+  } else if (name == "king") {
+	  /*
+	   *  The king will follow similar logic to the knight.  However the king will
+	   *  be 2 for loops from -1 to 1 to cover all 8 surrounding squares.
+	   */
+  
+    var newRank;
+    var newFile;
+    var newTile;
+
+    for (var i = -1; i < 2; i++) {
+      for (var j = -1; j < 2; j++) {
+        var absSum;
+        newRank = Number(currentRank) + i;
+        newFile = Number(currentFile) + j;
+        if (newRank > 0 && newFile > 0) {
+          //console.log($('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id'));
+          newTile = $('.tile[data-rank="' + newRank + '"][data-file="' + newFile + '"]').attr('id');
+        }
+        //check if tile is occupied
+        if($('.tile[id=' + newTile + ']').find('img').length){
+          //if occupied make sure it is opposite color
+          if($('.tile[id=' + newTile + ']').children('img').attr('player') !== player){
+            legalTiles.push(Number(newTile));
+          }
+        } else {
+          legalTiles.push(Number(newTile));
+        }
+      } //end j
+    } //end i
+  
   
   
   };//end getting the legal moves
